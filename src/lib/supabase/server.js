@@ -1,0 +1,34 @@
+import { createServerClient as createSSRClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
+
+function getSupabaseEnv() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) {
+    throw new Error("Supabase: задайте NEXT_PUBLIC_SUPABASE_URL и NEXT_PUBLIC_SUPABASE_ANON_KEY");
+  }
+  return { url, key };
+}
+
+/** Клиент с сессией из cookies (Server Components, actions, route handlers) */
+export async function createServerClient() {
+  const { url, key } = getSupabaseEnv();
+  const cookieStore = await cookies();
+
+  return createSSRClient(url, key, {
+    cookies: {
+      getAll() {
+        return cookieStore.getAll();
+      },
+      setAll(cookiesToSet) {
+        try {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            cookieStore.set(name, value, options);
+          });
+        } catch {
+          /* set из Server Component — middleware обновит сессию */
+        }
+      }
+    }
+  });
+}
