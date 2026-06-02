@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#080808"/>
+  <path d="M0 420 L200 280 L400 380 L600 220 L800 340 L800 600 L0 600Z" fill="#cfff00" opacity="0.08"/>
+  <rect x="40" y="40" width="120" height="120" stroke="#ff0078" stroke-width="2" opacity="0.4"/>
+  <text x="40" y="560" fill="#cfff00" font-family="monospace" font-size="18" opacity="0.5">ОБРАЗЕЦ</text>
+</svg>
